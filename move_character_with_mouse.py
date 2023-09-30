@@ -9,10 +9,9 @@ TUK_ground = load_image('TUK_GROUND.png')
 character = load_image('animation_sheet.png')
 hand = load_image('hand_arrow.png')
 
-
 def handle_events():
     global running
-    global character_x, character_y  # 캐릭터 좌표
+    global character_x, character_y
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -21,7 +20,6 @@ def handle_events():
             hand_x, hand_y = event.x, TUK_HEIGHT - 1 - event.y
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
-
 
 running = True
 character_x, character_y = TUK_WIDTH // 2, TUK_HEIGHT // 2
@@ -40,14 +38,16 @@ while running:
     # 캐릭터 이동
     if character_x < hand_x:
         character_x += 1
+        character.clip_draw(frame * 100, 100 * 1, 100, 100, character_x, character_y)
     elif character_x > hand_x:
         character_x -= 1
-    if character_y < hand_y:
+        character.clip_composite_draw(frame * 100, 100 * 1, 100, 100, 0, 'h', character_x, character_y, 100, 100)
+    elif character_y < hand_y:
         character_y += 1
+        character.clip_draw(frame * 100, 100 * 1, 100, 100, character_x, character_y)
     elif character_y > hand_y:
         character_y -= 1
-
-    character.clip_draw(frame * 100, 100 * 1, 100, 100, character_x, character_y)
+        character.clip_composite_draw(frame * 100, 100 * 1, 100, 100, 0, 'h', character_x, character_y, 100, 100)
 
     current_time = time.time()
     if current_time - prev_time >= 5.0:
