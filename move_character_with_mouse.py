@@ -1,10 +1,14 @@
 from pico2d import *
+import random  # random 모듈 임포트
 
 TUK_WIDTH, TUK_HEIGHT = 1280, 1024
 open_canvas(TUK_WIDTH, TUK_HEIGHT)
 
 TUK_ground = load_image('TUK_GROUND.png')
 character = load_image('animation_sheet.png')
+hand = load_image('hand_arrow.png')
+
+
 def handle_events():
     global running
     global x, y
@@ -16,7 +20,7 @@ def handle_events():
             x, y = event.x, TUK_HEIGHT - 1 - event.y
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
-    pass
+
 
 running = True
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
@@ -27,6 +31,12 @@ while running:
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+
+    # 랜덤한 위치에 hand_arrow.png를 그리기
+    hand_x = random.randint(0, TUK_WIDTH - 1)
+    hand_y = random.randint(0, TUK_HEIGHT - 1)
+    hand.draw(hand_x, hand_y)
+
     update_canvas()
     frame = (frame + 1) % 8
 
