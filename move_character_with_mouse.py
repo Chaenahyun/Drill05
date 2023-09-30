@@ -1,5 +1,6 @@
 from pico2d import *
-import random  # random 모듈 임포트
+import random
+import time
 
 TUK_WIDTH, TUK_HEIGHT = 1280, 1024
 open_canvas(TUK_WIDTH, TUK_HEIGHT)
@@ -27,14 +28,23 @@ x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 frame = 0
 hide_cursor()
 
+# 초기화한 변수
+hand_x = 0
+hand_y = 0
+
+prev_time = time.time()
+
 while running:
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
 
-    # 랜덤한 위치에 hand_arrow.png를 그리기
-    hand_x = random.randint(0, TUK_WIDTH - 1)
-    hand_y = random.randint(0, TUK_HEIGHT - 1)
+    current_time = time.time()
+    if current_time - prev_time >= 1.0:
+        hand_x = random.randint(0, TUK_WIDTH - 1)
+        hand_y = random.randint(0, TUK_HEIGHT - 1)
+        prev_time = current_time
+
     hand.draw(hand_x, hand_y)
 
     update_canvas()
