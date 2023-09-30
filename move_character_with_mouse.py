@@ -37,7 +37,7 @@ while running:
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
 
-    # 캐릭터 좌표와 손 좌표를 비교하여 캐릭터를 이동시킴
+    # 캐릭터 이동
     if character_x < hand_x:
         character_x += 1
     elif character_x > hand_x:
@@ -50,7 +50,7 @@ while running:
     character.clip_draw(frame * 100, 100 * 1, 100, 100, character_x, character_y)
 
     current_time = time.time()
-    if current_time - prev_time >= 1.0:
+    if current_time - prev_time >= 5.0:
         hand_x = random.randint(0, TUK_WIDTH - 1)
         hand_y = random.randint(0, TUK_HEIGHT - 1)
         prev_time = current_time
