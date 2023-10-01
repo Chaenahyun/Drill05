@@ -39,6 +39,16 @@ while running:
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
 
+    # 화살표와 캐릭터 간의 거리 계산
+    distance = get_distance(character_x, character_y, hand_x, hand_y)
+
+    # 캐릭터와 만나면 화살표 위치 변경
+    if distance < 10.0:
+        new_hand_x = random.randint(0, TUK_WIDTH - 1)
+        new_hand_y = random.randint(0, TUK_HEIGHT - 1)
+        if new_hand_x != hand_x or new_hand_y != hand_y:  # 위치가 변경되었을 때만 업데이트
+            hand_x, hand_y = new_hand_x, new_hand_y
+
     # 캐릭터 이동
     move_x, move_y = 0, 0
     if character_x < hand_x:
@@ -50,6 +60,7 @@ while running:
     elif character_y > hand_y:
         move_y = -1
 
+    # 대각선으로 이동
     character_x += move_x
     character_y += move_y
 
@@ -60,16 +71,6 @@ while running:
             character.clip_composite_draw(frame * 100, 100 * 1, 100, 100, 0, 'h', character_x, character_y, 100, 100)
     else:
         character.clip_composite_draw(frame * 100, 100 * 1, 100, 100, 0, 'h', character_x, character_y, 100, 100)
-
-    # 화살표와 캐릭터 간의 거리 계산
-    distance = get_distance(character_x, character_y, hand_x, hand_y)
-
-    # 만나면 화살표 위치 변경
-    if distance < 10.0:
-        new_hand_x = random.randint(0, TUK_WIDTH - 1)
-        new_hand_y = random.randint(0, TUK_HEIGHT - 1)
-        if new_hand_x != hand_x or new_hand_y != hand_y:  # 위치가 변경되었을 때만 업데이트
-            hand_x, hand_y = new_hand_x, new_hand_y
 
     hand.draw(hand_x, hand_y)
 
